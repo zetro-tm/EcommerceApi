@@ -17,7 +17,7 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-mongoose.connect(DB).then(() => console.log('DB coonection succesfull!🎉🎉'));
+mongoose.connect(DB).then(() => console.log('DB connection succesfull!🎉🎉'));
 
 const port = process.env.PORT;
 const server = app.listen(port, () => {

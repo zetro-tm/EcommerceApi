@@ -70,6 +70,12 @@ UserSchema.pre('save', function (next) {
   next();
 });
 
+UserSchema.pre(/^find/, function (next) {
+  //this points to the cuurent query
+  this.find({ active: { $ne: false } });
+  next();
+});
+
 UserSchema.methods.correctPassword = async function (
   //instance method is a method that is availabe to all the documents in a collection
   candidatePassword, //not hashed
