@@ -12,8 +12,8 @@ router.route('/product-stats').get(productController.getProductStats);
 
 router
   .route('/')
-  .get(authController.protect, productController.getAllProducts)
-  .post(productController.createProduct);
+  .get(productController.getAllProducts)
+  .post(authController.protect, productController.createProduct);
 
 router
   .route('/:id')
