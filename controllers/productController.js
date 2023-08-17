@@ -121,11 +121,15 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findOneAndDelete(req.params.id);
+  const product = await Product.findById(req.params.id);
+
+  console.log(req.params.id);
+  console.log(product);
 
   if (!product) {
     return next(new AppError('No product found with that ID', 404)); // return next function immediately and not send another response
   }
+  await Product.deleteOne(product);
 
   res.status(204).json({
     status: 'success',

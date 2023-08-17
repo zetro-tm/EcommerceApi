@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const validator = require('validator');
+const User = require('./userModel');
+const AppError = require('../utils/appError');
 
 const Schema = mongoose.Schema;
 
@@ -73,6 +75,10 @@ const productSchema = new Schema(
         message: 'Discount price should be below actual price',
       },
     },
+    productOwner: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -89,15 +95,25 @@ productSchema.pre('save', function (next) {
   next();
 });
 
-// productSchema.post('save', function (doc, next) {
-//   next();
-// });
+productSchema.pre('save', async function (next) {
+  this.productOwner = await User.findById(this.productOwner);
+
+  next();
+});
 
 //QUERY MIDDLEWARE
 productSchema.pre(/^find/, function (next) {
   //  /^find/ is for all commands that have find
   //processing queries
   this.start = Date.now();
+  next();
+});
+
+productSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'productOwner',
+    select: '-createdAt -updatedAt -__v',
+  }); // Populating the productOwner field
   next();
 });
 

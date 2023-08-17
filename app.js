@@ -3,6 +3,10 @@ const express = require('express');
 const apicache = require('apicache');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -11,15 +15,14 @@ const productRouter = require('./routes/productRoutes');
 
 const app = express();
 
-// let cache = apicache.middleware;
-// app.use(cache('5 minutes'));
-
 //1) GLOBAL MIDDLEWARES
 
+//Set security HTTP headers
+app.use(helmet());
+
 //logs requests to the terminal
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
+
+app.use(morgan('dev'));
 
 //Rate limiter
 const limiter = rateLimit({
@@ -30,9 +33,21 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 //Body parser,reading data from the body to req.body
-app.use(express.json());
+app.use(express.json({ limit: '20kb' }));
 
-// app.use('/api/v1/users', userRouter);
+//Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+
+//Data sanitization against XSS(Cross site scripting attacks)
+app.use(xss());
+
+//Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: ['ratingsAverage', 'ratingsQuantity', 'price'],
+  })
+);
+
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/users', userRouter);
 
