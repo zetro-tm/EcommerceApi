@@ -3,10 +3,9 @@ const slugify = require('slugify');
 const validator = require('validator');
 const User = require('./userModel');
 const AppError = require('../utils/appError');
+const Review = require('./reviewModel');
 
-const Schema = mongoose.Schema;
-
-const productSchema = new Schema(
+const productSchema = new mongoose.Schema(
   {
     brand: {
       type: String,
@@ -85,8 +84,19 @@ const productSchema = new Schema(
       select: false, //excludes it from the data being sent
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
+
+//VIRTUAL POPULATE
+productSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id', // specify where the review is stored in the current model
+  foreignField: 'product', //specify where the id is stored in the review model
+});
 
 //DOCUMENT MIDDLEWARE: runs before only .save() and .create()
 productSchema.pre('save', function (next) {

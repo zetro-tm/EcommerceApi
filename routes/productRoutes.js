@@ -1,8 +1,11 @@
 const express = require('express');
 const productController = require('../controllers/productController');
 const authController = require('../controllers/authController');
+const reviewRouter = require('./reviewRoutes');
 
 const router = express.Router();
+
+router.use('/:productId/reviews', reviewRouter);
 
 router
   .route('/top-5-cheap')
@@ -24,5 +27,14 @@ router
     authController.restrictTo('admin', 'store-owner'),
     productController.deleteProduct
   );
+
+//Simple nested route Bad practice
+// router
+//   .route('/:productId/reviews')
+//   .post(
+//     authController.protect,
+//     authController.restrictTo('user'),
+//     reviewController.createReview
+//   );
 
 module.exports = router;
