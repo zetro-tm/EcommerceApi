@@ -4,6 +4,7 @@ const authController = require('../controllers/authController');
 
 const router = express.Router({ mergeParams: true }); //merge params enables access to params of other routers
 
+router.use(authController.protect);
 router
   .route('/:id')
   .get(reviewController.getReview)

@@ -16,12 +16,20 @@ router.route('/product-stats').get(productController.getProductStats);
 router
   .route('/')
   .get(productController.getAllProducts)
-  .post(authController.protect, productController.createProduct);
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'productOwner'),
+    productController.createProduct
+  );
 
 router
   .route('/:id')
   .get(productController.getProduct)
-  .patch(productController.updateProduct)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'store-owner'),
+    productController.updateProduct
+  )
   .delete(
     authController.protect,
     authController.restrictTo('admin', 'store-owner'),
