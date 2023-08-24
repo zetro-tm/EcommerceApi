@@ -91,6 +91,9 @@ const productSchema = new mongoose.Schema(
   }
 );
 
+//Indexes
+productSchema.index({ price: 1, ratingsAverage: -1 }); //1:ascending  -1:descending
+
 //VIRTUAL POPULATE
 productSchema.virtual('reviews', {
   ref: 'Review',
