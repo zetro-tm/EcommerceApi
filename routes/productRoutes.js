@@ -18,7 +18,7 @@ router
   .get(productController.getAllProducts)
   .post(
     authController.protect,
-    authController.restrictTo('admin', 'productOwner'),
+    authController.restrictTo('admin'),
     productController.createProduct
   );
 
@@ -27,12 +27,12 @@ router
   .get(productController.getProduct)
   .patch(
     authController.protect,
-    authController.restrictTo('admin', 'store-owner'),
+    authController.restrictTo('admin'),
     productController.updateProduct
   )
   .delete(
     authController.protect,
-    authController.restrictTo('admin', 'store-owner'),
+    authController.restrictTo('admin'),
     productController.deleteProduct
   );
 
