@@ -10,7 +10,9 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-mongoose.connect(DB).then(() => console.log('DB coonection succesfull!🎉🎉'));
+mongoose
+  .connect(DB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('DB coonection succesfull!🎉🎉'));
 
 //READ JSON FILE
 const products = JSON.parse(fs.readFileSync('data/products2.json', 'utf-8'));
