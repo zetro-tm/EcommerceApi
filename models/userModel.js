@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema(
       select: false,
     },
     passwordChangedAt: Date,
-    // photo: String,
+    photo: String,
 
     role: {
       type: String,
