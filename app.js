@@ -7,17 +7,23 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const dotenv = require('dotenv');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const options = require('./swagger');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const cartRouter = require('./routes/cartRoutes');
 
 const app = express();
 
 //1) GLOBAL MIDDLEWARES
 
+dotenv.config({ path: './config.env' });
 //Set security HTTP headers
 app.use(helmet());
 
@@ -52,6 +58,10 @@ app.use(
 app.use('/api/v1/products', productRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/cart', cartRouter);
+
+const specs = swaggerJsDoc(options);
+app.use('/api/v1/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 //Handling unhandled routes.
 app.all('*', (req, res, next) => {

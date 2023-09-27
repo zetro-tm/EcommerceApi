@@ -47,6 +47,8 @@ const productSchema = new mongoose.Schema(
     tag_list: {
       type: Array,
     },
+    images: [String],
+
     ratingsAverage: {
       type: Number,
       default: 4.5,

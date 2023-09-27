@@ -7,6 +7,35 @@ const router = express.Router();
 
 router.use('/:productId/reviews', reviewRouter);
 
+/**
+ * @swagger
+ * tags:
+ *    name: Products
+ *    description: API endpoint to manage products
+ *
+ */
+
+/**
+ * @swagger
+ *    /products:
+ *        get:
+ *            summary: Get all products
+ *            tags: [Producs]
+ *            responses:
+ *                "200":
+ *                    description: The list of products
+ *                    contents:
+ *                        application/json:
+ *                            schema:
+ *                                $ref: '#/components/schemas/Product'
+ *                "400":
+ *                    $ref: '#/components/responses/400'
+ *                "404":
+ *                    $ref: '#/components/responses/404'
+ *
+ *
+ *
+ */
 router
   .route('/top-5-cheap')
   .get(productController.aliasTopProducts, productController.getAllProducts);
@@ -28,6 +57,8 @@ router
   .patch(
     authController.protect,
     authController.restrictTo('admin'),
+    productController.uploadProductImages,
+    productController.resizeProductImages,
     productController.updateProduct
   )
   .delete(
