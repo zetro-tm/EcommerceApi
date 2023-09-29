@@ -53,3 +53,76 @@ exports.getUserCart = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.updateCart = catchAsync(async (req, res, next) => {
+  const user = req.user._id;
+  const product = req.params.id;
+  const { quantity } = req.body;
+
+  if (!quantity) {
+    return next(new AppError('Please enter a quantity', 400));
+  }
+
+  const cart = await Cart.findOne({ user }).select('-user');
+
+  const productIndex = cart.products.findIndex((item) =>
+    item.product.equals(product)
+  );
+
+  if (productIndex !== -1) {
+    cart.products[productIndex].quantity = quantity;
+
+    if (cart.products[productIndex].quantity === 0) {
+      // if quantity is zero, remove item
+      cart.products.splice(productIndex, 1);
+    }
+
+    await cart.save();
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        cart,
+      },
+    });
+  } else {
+    return next(new AppError('Product not found in cart', 404));
+  }
+});
+
+exports.removeItem = catchAsync(async (req, res, next) => {
+  const user = req.user._id;
+  const product = req.params.id;
+
+  const cart = await Cart.findOneAndUpdate(
+    { user },
+    {
+      $pull: { products: { product } }, // Remove the product from the array
+    },
+    { new: true } // Return the updated cart
+  );
+
+  if (!cart) {
+    return next(new AppError('Product not found', 404));
+  }
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
+
+exports.clearCart = catchAsync(async (req, res, next) => {
+  const user = req.user._id;
+
+  const result = await Cart.findOneAndDelete({ user });
+
+  if (result === null) {
+    return next(new AppError('Cart has already been emptied', 404));
+  } else {
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  }
+});

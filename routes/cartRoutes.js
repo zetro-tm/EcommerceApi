@@ -4,9 +4,16 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
+router.use(authController.protect);
 router
   .route('/')
-  .post(authController.protect, cartController.addToCart)
-  .get(authController.protect, cartController.getUserCart);
+  .post(cartController.addToCart)
+  .get(cartController.getUserCart)
+  .delete(cartController.clearCart);
+
+router
+  .route('/:id')
+  .patch(cartController.updateCart)
+  .delete(cartController.removeItem);
 
 module.exports = router;
