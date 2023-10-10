@@ -1,4 +1,19 @@
 ## EcommerceAPI
+This is an API built for shopping cosmetic products
+
+# Features
+
+- Signup
+- Login
+- Get top 5 cheap products
+- Product stats
+- Filter thorugh products using parameters
+- Update Currently logged in user's information
+- Forgot Password functionality
+- Reset Password functionality
+- Create reviews on products
+- Cart functionality 
+- and many more...
 
 ## Built with
 
@@ -52,7 +67,7 @@ NODE_ENV,PORT,DATABASE and DATABASE_PASSWORD are compulsory for the server to ru
 
 - https://ecommerce-api-kgn2.onrender.com
 
-## DOCUMENTATION
-View Postman documentation here: 
+## Documentation
+View Postman documentation here: https://documenter.getpostman.com/view/24160587/2s9YJhxzfa
 
 View Swagger documentation here: https://ecommerce-api-kgn2.onrender.com/api/v1/api-docs (still working on it )
