@@ -35,6 +35,9 @@ app.use(helmet());
 
 app.use(morgan('dev'));
 
+// Enable trust proxy
+app.set('trust proxy', true);
+
 //Rate limiter
 const limiter = rateLimit({
   max: 100,
