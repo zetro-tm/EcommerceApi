@@ -2,4 +2,3 @@ node_modules/
 *.env
 .cache/
 text.txt
-data/img/

@@ -11,6 +11,7 @@ const dotenv = require('dotenv');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const options = require('./swagger');
+const cors = require('cors')
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -22,6 +23,9 @@ const cartRouter = require('./routes/cartRoutes');
 const app = express();
 
 //1) GLOBAL MIDDLEWARES
+//Implement CORS
+  app.use(cors())
+  app.options('*',cors())
 
 dotenv.config({ path: './config.env' });
 //Set security HTTP headers

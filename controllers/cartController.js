@@ -3,7 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const Cart = require('../models/cartModel');
 
 exports.addToCart = catchAsync(async (req, res, next) => {
-  console.log(req.user._id);
+  // console.log(req.user._id);
   //   if (req.body) {
   //     return next(new AppError('Invalid request', 400));
   //   }
