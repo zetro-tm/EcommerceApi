@@ -1,3 +1,10 @@
+let url;
+if (process.env.NODE_ENV === 'development') {
+  url = 'http://localhost:8001/'
+}
+if (process.env.NODE_ENV === 'production') {
+  url = 'https://ecommerce-api-kgn2.onrender.com'
+}
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -8,7 +15,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:8001/',
+        url: url,
         description: 'Development server',
       },
     ],
