@@ -11,7 +11,7 @@ router.use('/:productId/reviews', reviewRouter);
  * @swagger
  * tags:
  *    name: Products
- *    description: API endpoint to manage products
+ *    description: API endpoint to manage Products
  *
  */
 
@@ -20,11 +20,11 @@ router.use('/:productId/reviews', reviewRouter);
  *    /products:
  *        get:
  *            summary: Get all products
- *            tags: [Producs]
+ *            tags: [Products]
  *            responses:
  *                "200":
  *                    description: The list of products
- *                    contents:
+ *                    content:
  *                        application/json:
  *                            schema:
  *                                $ref: '#/components/schemas/Product'
@@ -32,10 +32,10 @@ router.use('/:productId/reviews', reviewRouter);
  *                    $ref: '#/components/responses/400'
  *                "404":
  *                    $ref: '#/components/responses/404'
- *
- *
- *
+ *                "500":
+ *                    $ref: '#/components/responses/500'
  */
+
 router
   .route('/top-5-cheap')
   .get(productController.aliasTopProducts, productController.getAllProducts);
