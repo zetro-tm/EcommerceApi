@@ -78,8 +78,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     token = req.headers.authorization.split(' ')[1]; // split the value of the header to get the second part which is the token
   }
-
-  if (!token) {
+  console.log(token);
+  if (!token || token === undefined) {
     return new AppError(
       'You are not logged in! Please log in to get access',
       401
