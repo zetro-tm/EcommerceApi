@@ -7,6 +7,7 @@
     "import": "node data/importData.js --import",
     "delete": "node data/importData.js --delete",
     "test": "jest",
+    "troubleshoot-jest": "jest --detectOpenHandles",
     "start:dev": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js"
