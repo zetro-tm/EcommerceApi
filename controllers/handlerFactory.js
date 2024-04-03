@@ -9,7 +9,7 @@ exports.deleteOne = (Model) =>
     if (!doc) {
       return next(new AppError('No doc found with that ID', 404)); // return next function immediately and not send another response
     }
-    await Model.deleteOne(doc);
+    await Model.findByIdAndDelete(req.params.id);
 
     res.status(204).json({
       status: 'success',
