@@ -2,6 +2,8 @@ const express = require('express');
 const productController = require('../controllers/productController');
 const authController = require('../controllers/authController');
 const reviewRouter = require('./reviewRoutes');
+const validate = require('../middlewares/validate');
+const productSchema = require('../validation/productSchema');
 
 const router = express.Router();
 
@@ -48,6 +50,7 @@ router
   .post(
     authController.protect,
     authController.restrictTo('admin'),
+    validate(productSchema.createProduct),
     productController.createProduct
   );
 
@@ -57,6 +60,7 @@ router
   .patch(
     authController.protect,
     authController.restrictTo('admin'),
+    validate(productSchema.updateProduct),
     productController.uploadProductImages,
     productController.resizeProductImages,
     productController.updateProduct
